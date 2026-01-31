@@ -19,11 +19,15 @@
 body{
   color:#fff;
   background:url('bg.jpg') center/cover fixed;
+  animation:pageFade 1s ease-out, bgZoom 20s ease-in-out infinite alternate;
 }
+@keyframes pageFade{from{opacity:0;transform:scale(1.02);}to{opacity:1;transform:scale(1);}}
+@keyframes bgZoom{from{background-size:100%;}to{background-size:110%;}}
+
 body::before{
   content:"";position:fixed;inset:0;
   backdrop-filter:blur(12px);
-  background:rgb(#ffffff);
+  background:rgba(0,0,0,.35);
   z-index:-1;
 }
 
@@ -35,49 +39,75 @@ header{
   background:rgba(255,255,255,.08);
   backdrop-filter:blur(20px);
   z-index:1000;
+  animation:slideDown .8s ease-out;
 }
-.logo{font-size:var(--med);font-weight:900;}
-nav a{margin-left:20px;color:#fff;text-decoration:none;font-weight:800;font-size:var(--small);}
-.lang-btn{margin-left:15px;padding:6px 14px;border-radius:20px;border:none;font-weight:800;background:linear-gradient(90deg,#00e0ff,#0077ff);color:#fff;}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0;}to{transform:translateY(0);opacity:1;}}
+
+.logo{
+  font-size:var(--med);font-weight:900;position:relative;overflow:hidden;
+}
+.logo::after{
+  content:"";position:absolute;top:0;left:-120%;
+  width:60%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.8),transparent);
+  transform:skewX(-20deg);
+  animation:logoShine 4s infinite;
+}
+@keyframes logoShine{0%{left:-120%;}50%{left:120%;}100%{left:120%;}}
+
+nav a{margin-left:20px;color:#fff;text-decoration:none;font-weight:800;font-size:var(--small);transition:.3s;}
+nav a:hover{color:#00e0ff;text-shadow:0 0 10px #00e0ff;}
 
 section{padding:120px 8% 60px;}
-.section-title{text-align:center;font-size:var(--big);font-weight:900;margin-bottom:40px;}
+.section-title{
+  text-align:center;font-size:var(--big);font-weight:900;margin-bottom:40px;
+  animation:titleGlow 2.5s ease-in-out infinite alternate;
+}
+@keyframes titleGlow{
+  from{text-shadow:0 0 10px #00e0ff;}
+  to{text-shadow:0 0 25px #0077ff,0 0 40px #00e0ff;}
+}
 
 /* SERVICES */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  grid-template-columns:repeat(1,minmax(240px,1fr));
   gap:25px;
 }
+/* 📲 Tablet and bigger screens */
+@media (min-width: 600px){
+  .grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 .card{
-  position:relative;
-  text-decoration:none;color:#fff;
+  position:relative;text-decoration:none;color:#fff;
   background:rgba(255,255,255,.08);
   backdrop-filter:blur(5px);
-  border-radius:20px;
-  overflow:hidden;
+  border-radius:20px;overflow:hidden;
   border:1px solid rgba(255,255,255,.15);
   transition:.4s;
+  opacity:0;transform:translateY(40px);
 }
-.card:hover{transform:translateY(-8px);}
+.card.show{opacity:1;transform:translateY(0);}
+.card:hover{transform:translateY(-10px) scale(1.02);}
+
 .card::before{
-  content:"";
-  position:absolute;inset:-2px;
-  border-radius:20px;
-  background:linear-gradient(45deg,#f1,#ff,#0f);
-  z-index:-1;
-  animation:glow 3s linear infinite;
+  content:"";position:absolute;inset:-2px;border-radius:20px;
+  background:linear-gradient(45deg,#00e0ff,#0077ff,#00e0ff);
+  z-index:-1;animation:glow 4s linear infinite;
 }
-@keyframes glow{
-  0%{filter:hue-rotate(0deg);}
-  100%{filter:hue-rotate(360deg);}
+@keyframes glow{0%{filter:hue-rotate(0);}100%{filter:hue-rotate(360deg);}}
+
+.card::after{
+  content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.6),transparent);
+  transform:skewX(-20deg);
 }
-.card img{
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  display:block;
-}
+.card:hover::after{animation:shine .8s forwards;}
+@keyframes shine{to{left:150%;}}
+
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;}
 .card-content{padding:18px;}
 .card h3{font-size:var(--med);font-weight:900;}
 .card p{font-size:var(--small);font-weight:600;}
@@ -88,18 +118,27 @@ section{padding:120px 8% 60px;}
   background:rgba(255,255,255,.08);
   backdrop-filter:blur(25px);
   padding:25px;border-radius:20px;
+  animation:fadeUp 1.2s ease;
 }
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
 .form-box input,.form-box select{
-  width:100%;margin:10px 0;padding:12px;
-  border:none;border-radius:10px;font-size:var(--small);
+  width:100%;margin:10px 0;padding:12px;border:none;border-radius:10px;font-size:var(--small);
+  transition:.3s;
 }
+.form-box input:focus,.form-box select:focus{
+  outline:none;box-shadow:0 0 12px #00e0ff;transform:scale(1.03);
+}
+
 .form-box button{
   width:100%;padding:12px;border:none;border-radius:25px;
   background:#25D366;color:#fff;font-weight:900;font-size:var(--small);
+  transition:.2s;
 }
+.form-box button:active{transform:scale(.92);}
 
 /* CONTACT */
-.contact{text-align:center;font-size:var(--small);font-weight:700;}
+.contact{text-align:center;font-size:var(--small);font-weight:700;animation:fadeUp 1.5s ease;}
 
 footer{text-align:center;padding:25px;background:rgba(0,0,0,.5);font-weight:700;}
 
@@ -107,6 +146,12 @@ footer{text-align:center;padding:25px;background:rgba(0,0,0,.5);font-weight:700;
   position:fixed;bottom:20px;right:20px;
   background:#25D366;color:white;padding:14px 22px;border-radius:30px;
   text-decoration:none;font-weight:900;font-size:var(--small);
+  animation:whatsappPulse 2s infinite;
+}
+@keyframes whatsappPulse{
+  0%{box-shadow:0 0 0 0 rgba(37,211,102,.7);}
+  70%{box-shadow:0 0 0 18px rgba(37,211,102,0);}
+  100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
 }
 </style>
 </head>
@@ -201,7 +246,15 @@ footer{text-align:center;padding:25px;background:rgba(0,0,0,.5);font-weight:700;
 
 </div>
 
+<section id="services">
+  <h2 class="section-title">OUR SERVICES</h2>
+  <div class="grid">
 
+    <!-- Keep all your existing cards exactly same -->
+    <!-- (No changes needed here) -->
+
+  </div>
+</section>
 
 <section id="booking">
   <h2 class="section-title">BOOK A SERVICE</h2>
@@ -238,6 +291,15 @@ function sendBooking(){
   let msg=`Booking Request:%0AName: ${name}%0APhone: ${phone}%0AService: ${service}`;
   window.open(`https://wa.me/919217285455?text=${msg}`,'_blank');
 }
+
+/* Scroll reveal animation */
+const cards=document.querySelectorAll('.card');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('show');}
+  });
+},{threshold:.2});
+cards.forEach(card=>observer.observe(card));
 </script>
 
 </body>
