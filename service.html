@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Details</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Poppins',sans-serif;
+  margin:0;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
+  padding:40px 8%;
+}
+.box{
+  max-width:750px;
+  margin:auto;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(20px);
+  padding:30px;
+  border-radius:20px;
+}
+h1{font-size:32px;margin-bottom:10px;}
+p{opacity:.9;margin-bottom:15px;}
+ul{line-height:1.8;font-size:18px;margin-bottom:25px;}
+.btn{
+  display:inline-block;
+  padding:14px 25px;
+  background:#25D366;
+  color:white;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:800;
+}
+.home{
+  position:fixed;
+  top:15px;
+  left:15px;
+  color:white;
+  text-decoration:none;
+  font-weight:700;
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home">⬅ Home</a>
+
+<div class="box">
+  <h1 id="serviceTitle"></h1>
+  <p><b>We Provide These Services:</b></p>
+  <ul id="docList"></ul>
+
+  <a id="waBtn" class="btn" target="_blank">Continue on WhatsApp</a>
+</div>
+<script>
+const services = {
+  aadhaar: {
+    title: "Aadhaar Card Service",
+    items: [
+      "New Aadhaar Apply",
+      "Aadhaar Update / Correction",
+      "Mobile Number Change",
+      "Address Change",
+      "DOB Correction"
+    ],
+    msg: "I want Aadhaar Card Service"
+  },
+
+  pan: {
+    title: "PAN Card Service",
+    items: [
+      "New PAN Apply",
+      "Minor PAN Apply",
+      "Photo / Sign / DOB / Address Correction",
+      "Mobile Number Change"
+    ],
+    msg: "I want PAN Card Service"
+  },
+
+  voter: {
+    title: "Voter ID Card Service",
+    items: [
+      "New Voter ID Apply",
+      "Address Change",
+      "Name Correction",
+      "Mobile Number Link"
+    ],
+    msg: "I want Voter ID Service"
+  },
+
+  dl: {
+    title: "Driving Licence Service",
+    items: [
+      "Learning Licence Apply",
+      "New Driving Licence",
+      "DL Renewal",
+      "Address Change in DL"
+    ],
+    msg: "I want Driving Licence Service"
+  },
+
+  passport: {
+    title: "Passport Service",
+    items: [
+      "New Passport Apply",
+      "Passport Renewal",
+      "Address Update"
+    ],
+    msg: "I want Passport Service"
+  },
+
+  ayushman: {
+    title: "Ayushman Card Service",
+    items: [
+      "New Ayushman Card",
+      "Card Download",
+      "Name Correction"
+    ],
+    msg: "I want Ayushman Card Service"
+  },
+
+  bank: {
+    title: "Banking Services",
+    items: [
+      "New Account Opening Help",
+      "KYC Update",
+      "Mobile Link",
+      "Aadhaar Link"
+    ],
+    msg: "I want Banking Service"
+  },
+
+  gst: {
+    title: "GST Services",
+    items: [
+      "New GST Registration",
+      "GST Return Filing",
+      "GST Update / Correction"
+    ],
+    msg: "I want GST Service"
+  },
+
+  msme: {
+    title: "MSME / Udyam Registration",
+    items: [
+      "New MSME Registration",
+      "Certificate Download",
+      "Details Update"
+    ],
+    msg: "I want MSME Service"
+  },
+
+  edistrict: {
+    title: "E-District Services",
+    items: [
+      "Income Certificate",
+      "Caste Certificate",
+      "Residence Certificate",
+      "Birth/Death Certificate"
+    ],
+    msg: "I want E-District Service"
+  },
+
+  pf: {
+    title: "PF Services",
+    items: [
+      "PF Withdrawal",
+      "UAN Activation",
+      "KYC Update",
+      "Mobile Number Change"
+    ],
+    msg: "I want PF Service"
+  },
+
+  train: {
+    title: "Train Ticket Service",
+    items: [
+      "Normal Ticket Booking",
+      "Tatkal Ticket Booking",
+      "Ticket Cancellation"
+    ],
+    msg: "I want Train Ticket Service"
+  },
+
+  estamp: {
+    title: "E-Stamp Services",
+    items: [
+      "Online Stamp Paper",
+      "Rental Agreement Stamp",
+      "Affidavit Stamp"
+    ],
+    msg: "I want E-Stamp Service"
+  },
+
+  govjob: {
+    title: "Government Job Forms",
+    items: [
+      "Online Job Form Filling",
+      "Admit Card Download",
+      "Result Checking"
+    ],
+    msg: "I want Government Job Form Service"
+  },
+
+  insurance: {
+    title: "Insurance Services",
+    items: [
+      "Life Insurance",
+      "Bike Insurance",
+      "Car Insurance",
+      "Policy Renewal"
+    ],
+    msg: "I want Insurance Service"
+  }
+};
+
+const params = new URLSearchParams(window.location.search);
+const type = params.get("type");
+
+if (services[type]) {
+  document.getElementById("serviceTitle").innerText = services[type].title;
+
+  const ul = document.getElementById("docList");
+  ul.innerHTML = "";
+  services[type].items.forEach(item => {
+    let li = document.createElement("li");
+    li.innerText = item;
+    ul.appendChild(li);
+  });
+
+  document.getElementById("waBtn").href =
+    "https://wa.me/919217285455?text=" + encodeURIComponent(services[type].msg);
+}
+</script>
+
+
+</body>
+</html>
